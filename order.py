@@ -14,6 +14,7 @@ class Order:
         # Пустий список
         self.client_topings = []
         self.choosed_topings = ""
+        self.list_of_topings = []
         # Максимум наповнювачів у замовленні
         self.max_topings_count = 5
         self.pizza_size = None
@@ -30,5 +31,20 @@ class Order:
             print("-----")
 
     def client_topings_choice(self):
+        def client_input():
+            # Користувач вводить назву наповнювача
+            toping = input("Наповнювач: ")
+            # Перебираємо назви і кількість та ціну
+            for key, value in self.available_topings.items():
+                # Порівнюємо назву користувача і назву на складі
+                if toping == key:
+                    # Додаємо до рядка з переліком обраних наповнювачів нову назву
+                    self.choosed_topings += f"{key}, "
+                    # Додає обраний наповнювач до списку обраних наповнювачів
+                    self.client_topings.append(key)
+
         print(f'Оберіть {self.max_topings_count} наповнювачів. Коли завершите, поставте "-" ')
         self.choosed_topings = "Ви вибрали наступні наповнювачі: \n"
+
+        for _ in range(self.max_topings_count):
+            client_input()
