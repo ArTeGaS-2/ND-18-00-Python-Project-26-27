@@ -32,19 +32,34 @@ class Order:
 
     def client_topings_choice(self):
         def client_input():
+            is_continue = True
             # Користувач вводить назву наповнювача
             toping = input("Наповнювач: ")
+            toping = toping.title()
             # Перебираємо назви і кількість та ціну
             for key, value in self.available_topings.items():
+                is_continue = is_continue
+                key = key.title()
                 # Порівнюємо назву користувача і назву на складі
-                if toping == key:
+                if (toping.lower() == key.lower()) and (value[0] > 0):
                     # Додаємо до рядка з переліком обраних наповнювачів нову назву
                     self.choosed_topings += f"{key}, "
                     # Додає обраний наповнювач до списку обраних наповнювачів
                     self.client_topings.append(key)
+                elif toping == "-":
+                    is_continue = False
+                    break
+            if is_continue != True:
+                return False
+            else:
+                return True
+
+        topings_count_flag = True
 
         print(f'Оберіть {self.max_topings_count} наповнювачів. Коли завершите, поставте "-" ')
         self.choosed_topings = "Ви вибрали наступні наповнювачі: \n"
 
-        for _ in range(self.max_topings_count):
-            client_input()
+        while topings_count_flag and (len(self.client_topings) <= self.max_topings_count):
+            topings_count_flag = client_input()
+
+        print(self.choosed_topings)
